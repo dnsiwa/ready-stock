@@ -1,0 +1,180 @@
+
+<!-- Modal -->
+<div class="modal fade" id="modelEdit" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+        <button type="button" class="btn-close" id="close1" data-bs-dismiss="modal" aria-label="Close"></button> 
+      </div>
+      <div class="modal-body">
+
+        <!-- ****************************************** -->
+        <form class="row g-2" id="myform" onsubmit="saveForm(this)">
+          <center><img src="" id="img" width="100%" height="auto" style="display:none"></center>
+          <div class="col-md-6" id="div0" style="display:none">
+            <label for="numSTD" class="form-label">Timestamp</label>
+            <input type="text" class="form-control" id="numSTD" name="numSTD">
+          </div>
+          <div class="col-md-3">
+            <label for="katBaju" class="form-label">Kategori</label>
+            <select id="katBaju" name="katBaju" class="form-select" required>
+              <option selected>RTW</option>
+              <option >DWR</option>
+              <option >IVY</option>
+            </select>
+          </div>
+          <div class="col-md-5" id="div1">
+            <label for="skuID" class="form-label">Kode Baju</label>
+            <input type="text" class="form-control" id="skuID" name="skuID" required>
+            <!-- <div id="dupl" style="display:none">*Kode ini sudah ada, gak boleh input lagi!</div> -->
+          </div>
+          <div class="col-md-4" id="div3">
+            <label for="status" class="form-label">Status*</label>
+            <select id="status" name="status" class="form-select" onchange="disReady()" required>
+                <option selected>In Progress</option>
+                <option >In Store</option>
+                <option >Sold</option>
+              </select>
+          </div>
+          <div class="col-md-7" id="div2">
+            <label for="namaBaju" class="form-label">Model Baju*</label>
+            <input type="text" class="form-control" id="namaBaju" name="namaBaju" required>
+          </div>
+          <div class="col-md-5" id="div3">
+            <label for="warna" class="form-label">Warna*</label>
+            <input type="text" class="form-control" id="warna" name="warna" required>
+          </div>
+          <div class="col-md-3">
+            <label for="jenisBaju" class="form-label">Jenis Baju*</label>
+            <select id="jenisBaju" name="jenisBaju" class="form-select" required>
+              <option>Dress</option>
+              <option>Kebaya</option>
+              <option>Kemeja</option>
+              <option>Bawahan</option>
+              <option>Anak</option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label for="size" class="form-label">Size</label>
+            <input type="text" class="form-control" id="size" name="size" required>
+          </div>
+          <div class="col-md-4">
+            <label for="store" class="form-label">Store</label>
+            <select id="store" name="store" class="form-select">
+              <option selected value>-</option>
+              <option >Shopee</option>
+              <option >IG</option>
+              <option >TikTok</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="lingkarDada" class="form-label">Lingkar Dada</label>
+            <input type="text" class="form-control" id="lingkarDada" name="lingkarDada">
+          </div>
+          <div class="col-md-4">
+            <label for="panjangLengan" class="form-label">Panjang Lengan</label>
+            <input type="text" class="form-control" id="panjangLengan" name="panjangLengan">
+          </div>
+          <div class="col-md-4">
+            <label for="panjangBaju" class="form-label">Panjang Baju</label>
+            <input type="text" class="form-control" id="panjangBaju" name="panjangBaju">
+          </div>
+          <div class="col-md-6">
+            <label for="etalase" class="form-label">Order ID</label>
+            <!-- </br> -->
+            <input type="text" class="form-control" id="etalase" name="etalase">
+            <!-- <textarea id="ket" name="ket" rows="4" cols="30"></textarea> -->
+          </div>
+          <div class="col-md-6">
+            <label for="namaUser" class="form-label">Dibeli Oleh</label>
+            <input type="text" class="form-control" id="namaUser" name="namaUser" >
+          </div>
+          <div class="col-md-5" id="tanggaledit" >
+            <label for="lastEdit" class="form-label" >Last Edit</label>
+            <input type="datetime" class="form-control" id="lastEdit" name="lastEdit" readonly>
+          </div>
+          <!-- <div id="myGambar" class="col-md-12 mb-2">
+            <label for="myFile" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="myFile"  name="myFile" accept="image/*">
+          </div> -->
+          <br>
+          <br>
+          <br>
+          <div class="col-md-6">
+            <input class="form-check-input" type="checkbox" id="kain" onclick="hideStatKain(this)" name="kain" value="✔">
+            <label for="kain" class="form-label">Kain Bahan</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="pola" name="pola" onclick="displayHello(this)" value="✔">
+            <label for="pola" class="form-label">Pola Potong</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="jahit" name="jahit" onclick="displayHello(this)" value="✔">
+            <label for="jahit" class="form-label">Jahit</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="qcAwal" name="qcAwal" onclick="displayHello(this)" value="✔">
+            <label for="qcAwal" class="form-label">QC Awal</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="bordir" name="bordir" onclick="displayHello(this)" value="✔">
+            <label for="bordir" class="form-label">Bordir</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="jelujur" name="jelujur" onclick="displayHello(this)" value="✔">
+            <label for="jelujur" class="form-label">Jelujur</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="payet" name="payet" onclick="displayHello(this)" value="✔">
+            <label for="payet" class="form-label">Payet</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="qcPayet" name="qcPayet" onclick="displayHello(this)" value="✔">
+            <label for="qcPayet" class="form-label">QC Payet</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="qcAkhir" name="qcAkhir" onclick="displayHello(this)" value="✔">
+            <label for="qcAkhir" class="form-label">QC Akhir</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" class="form-check-input" id="readystock" name="readystock" onclick="displayHello(this);" value="✔" >
+            <label for="readystock" class="form-label">Ready</label>
+          </div>
+          <div class="col-12 text-center" id="tombolReset">
+            <button id="resetall" type="button" class="btn btn-secondary btn-sm col-md-12" onclick="resetChecklist()">Reset</button>
+          </div>
+          <br>
+          <div class="col-md-12" id="statKainBox">
+            <label for="statKain" class="form-label">Status Kain</label>
+            <input type="text" class="form-control" id="statKain" name="statKain" >
+          </div>
+          <div class="col-md-12" id="catatanBox">
+            <label for="catatan" class="form-label" id="catatanText">Catatan</label>
+            <!-- <input type="text" class="form-control" id="catatan" name="catatan" > -->
+            <textarea id="catatan" class="form-control" name="catatan" rows="2" cols="50"></textarea>
+          </div>
+          <br>
+          <div id="myGambar" class="col-md-12 mb-2">
+            <label for="myFile" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="myFile"  name="myFile" accept="image/*">
+          </div>
+          <div class="col-md-12" id="lamaHariBox">
+            <label for="lamaHari" class="form-label">Umur Stok</label>
+            <input type="text" class="form-control" id="lamaHari" name="lamaHari" readonly>
+          </div>
+          <div class="col-12 text-center" id="tombolSubmit">
+            <button id="btn-submit" type="submit" class="btn btn-primary col-md-12">Submit</button>
+          </div>
+          <!-- <div class="col-2 text-right">
+            <button type="button" class="btn btn-secondary" id="close1" data-bs-dismiss="modal">Close</button>
+          </div> -->
+          <div class="col-md-12 mb-2">
+            <div id="spin-loader"><span class =" spinner-border text-danger" role="status"></span> Loading...</div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,203 @@
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css' rel='stylesheet'>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+
+  <table id="example" class="display bg-light cell-border" style="width:100%">
+    <thead style="background: #48beff"></thead>
+  </table>
+
+<script>
+google.script.run.withSuccessHandler(showTable).getData() ;
+
+
+function showTable(result){
+
+  $(document).ready(function() {
+
+  var dtab = $('#example').DataTable({
+      data:result,
+      destroy: true,
+      responsive: true,
+      // ajax:{
+      //   data: JSON.stringify(result)
+      //   },
+      "createdRow": function( row, data, dataIndex){
+        var timeNow = new Date();
+        var dTime = new Date(data[12]);
+        var iTn = timeNow.getTime();
+        var idT = dTime.getTime();
+        var dStat = data[3];
+        if( iTn-idT >= 2592000000){
+          if(dStat == "Sold"){
+            $(row).hide();
+          } 
+        }
+        if(dStat == "Sold"){
+          $(row).addClass('greenClass');
+        }
+      },
+      columns:[
+        {'title':'Timestamp','width':'10%'},
+        {'title':'Kode Baju'},
+        {'title':'Model Baju','width':'10%',render: function (data, type) {   
+            data = '<span onclick="editData(this);" style="color:blue" data-bs-toggle="modal" data-bs-target="#modelEdit" >'+data+'</span>'
+            return data;
+          },},
+        {'title':'Status'},
+        {'title':'Warna'},
+        {'title':'Jenis'},
+        {'title':'Size'},
+        {'title':'LD'},
+        {'title':'PL'},
+        {'title':'PB'},
+        {'title':'OID'},
+        {'title':'Pembeli'},
+        {'title':'Last Edit','width':'10%'},
+        // {'title':'myPic'},
+        // { title: 'Gambar',"width": "12%", render: function (data, type) {   
+        //     if (type === "display") {
+        //     if(data != ''){data = 
+        //     '<a href="'+data+'" onclick="showImage(this);" data-bs-toggle="modal" data-bs-target="#modalImage"><img id="myImg" src="'+data+'" width="100%" height="100%"/></a>'
+        //     }
+        //    }
+        //     return data;
+        //   },
+        // },
+        {'title':'Kain',"width": "5%"},
+        {'title':'Pola',"width": "5%"},
+        {'title':'Jahit',"width": "5%"},
+        {'title':'QC Awal',"width": "5%"},
+        {'title':'Bordir',"width": "5%"},
+        {'title':'Jelujur',"width": "5%"},
+        {'title':'Payet',"width": "5%"},
+        {'title':'QC Payet',"width": "5%"},
+        {'title':'QC Akhir',"width": "5%"},
+        {'title':'Ready',"width": "5%"},
+        { title: 'Gambar',"width": "12%", render: function (data, type) {   
+            if (type === "display") {
+            if(data != ''){data = 
+            // '<span data-bs-toggle="modal" data-bs-target="#myModal"><img id="myImg" src="'+data+'" width="100%" height="100%"/></span>'
+            '<a href="'+data+'" onclick="showImage(this);" data-bs-toggle="modal" data-bs-target="#modalImage"><img id="myImg" src="'+data+'" width="100%" height="auto" style="object-fit:contain;"/></a>'
+            }
+           }
+            return data;
+          },
+        },
+        {'title':'Kategori'},
+        {'title':'Status Kain'},
+        {'title':'Catatan'},
+        {'title':'Store'},
+        {'title':'Umur Stok'},
+        ],
+       columnDefs:[
+          {
+            targets: [0,1,2,6,13,14,15,16,17,18,19,20,21,23],
+            className: 'all dt-body-center',
+          },
+          // {
+          //   targets: [1],
+          //   visible: false,
+          //   searchable: true,
+          // },
+       ],
+   
+   lengthMenu: [
+          [25, 50, 100, -1 ],
+          ['25', '50','100', 'All' ]
+      ],
+        order: [[12, 'desc']],
+
+       dom: 'Bfrtip',
+          buttons: [
+          // {
+          //   extend: 'copyHtml5',
+          //   text: 'Copy',
+          //   exportOptions: {
+          //     columns: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+          //   }    
+          // },
+          // {
+          //   extend: 'excelHtml5',
+          //   text: 'Excel',
+          //   exportOptions: {
+          //     columns: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+          //   }    
+          // },
+          // {
+          //   extend: 'pdfHtml5',
+          //   text: 'PDF',
+          //   // title: 'PDF',
+          //   exportOptions: {
+          //     stripHtml : false,
+          //     columns: [1,2,3,6,13,14,15,16,19,20,21,23]
+          //   },
+          //   orientation: 'portrait'      
+          // },
+          {
+            extend: 'print',
+            text: 'Print',
+            // title: 'Print',
+            exportOptions: {
+              stripHtml : false,
+              columns: [1,2,3,6,13,14,15,16,19,20,21,23]
+            },
+            orientation: 'portrait'    
+          },
+        ]
+    });
+
+
+    $('#filter-kategori').on('change', function(e){
+      var status3 = $(this).val();
+      $('.filter-kat-dropdown').val(status3)
+      // console.log(status);
+      dtab.column(24).search(status3).draw();
+    }).change();
+    
+    $('#filter-status').on('change', function(e){
+      var status = $(this).val();
+      $('.status-dropdown').val(status)
+      // console.log(status);
+      dtab.column(3).search(status).draw();
+    }).change();
+
+    $('#filter-store').on('change', function(e){
+      var status4 = $(this).val();
+      $('.filter-store-dropdown').val(status4)
+      // console.log(status);
+      dtab.column(27).search(status4).draw();
+    }).change();
+
+    $('#filter-baju').on('change', function(e){
+      var status2 = $(this).val();
+      $('.filter-baju-dropdown').val(status2)
+      // console.log(status);
+      dtab.column(5).search(status2).draw();
+    }).change();
+
+    $('#cbReady.form-check-input').on('change', function(e){
+      if(this.checked) {
+        dtab.column(22).search("✔").draw();
+      }else{
+        dtab.column(22).search("").draw();
+      }
+    }).change();
+
+} );
+
+  }
+</script>

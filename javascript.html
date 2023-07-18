@@ -1,0 +1,275 @@
+<script>
+function disReady(){
+  // console.log(document.getElementById('status').value);
+  if(document.getElementById('status').value == "Sold"){
+    // document.getElementById('readystock').checked = false;
+    // document.getElementById('namaUser').required = true;
+  }else{
+    // document.getElementById('namaUser').required = false;
+  }
+}
+
+function resetChecklist(){
+  document.getElementById('kain').checked = false;
+  document.getElementById('pola').checked = false;
+  document.getElementById('jahit').checked = false;
+  document.getElementById('qcAwal').checked = false;
+  document.getElementById('bordir').checked = false;
+  document.getElementById('jelujur').checked = false;
+  document.getElementById('payet').checked = false;
+  document.getElementById('qcPayet').checked = false;
+  document.getElementById('qcAkhir').checked = false;
+  document.getElementById('readystock').checked = false;
+  document.getElementById('statKainBox').style.display = "none";
+}
+function hideStatKain(checkKain){
+  console.log(checkKain.checked);
+  if(checkKain.checked == true){
+    document.getElementById('statKainBox').style.display = "block";
+  }else{
+    document.getElementById('statKainBox').style.display = "none";
+  }
+}
+
+function displayHello(checkVal) {
+  switch (checkVal.id){
+    case "readystock": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('jahit').checked = true;
+    document.getElementById('qcAwal').checked = true;
+    document.getElementById('payet').checked = true;
+    document.getElementById('qcPayet').checked = true;
+    document.getElementById('qcAkhir').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Catatan";
+    
+    break;
+    case "qcAkhir": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('jahit').checked = true;
+    document.getElementById('qcAwal').checked = true;
+    document.getElementById('payet').checked = true;
+    document.getElementById('qcPayet').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status QC Akhir";
+    break;
+    case "qcPayet": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('jahit').checked = true;
+    document.getElementById('qcAwal').checked = true;
+    document.getElementById('payet').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status QC Payet";
+    break;
+    case "payet": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('jahit').checked = true;
+    document.getElementById('qcAwal').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status Payet";
+    break;
+    case "qcAwal": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('jahit').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status QC Awal";
+    break;
+    case "jahit": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('pola').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status Jahit";
+    break;
+    case "pola": 
+    document.getElementById('kain').checked = true;
+    document.getElementById('statKainBox').style.display = "none";
+    document.getElementById('catatanText').innerHTML = "Status Pola";
+    break;
+  }
+}
+
+function showImage(url){
+  console.log("ini adalah "+url)
+   document.getElementById('img01').src=url; 
+}
+
+function editData(el){
+  document.getElementById("status").readOnly = false;
+  document.getElementById("jenisBaju").readOnly = true;
+  document.getElementById("size").readOnly = false;
+  document.getElementById("lingkarDada").readOnly = false;
+  document.getElementById("panjangLengan").readOnly = false;
+  document.getElementById("panjangBaju").readOnly = false;
+  document.getElementById("etalase").readOnly = false;
+  document.getElementById("namaUser").readOnly = false;
+  document.getElementById("lastEdit").readOnly = false;
+  document.getElementById("kain").readOnly = false;
+  document.getElementById("pola").readOnly = false;
+  document.getElementById("jahit").readOnly = false;
+  document.getElementById("qcAwal").readOnly = false;
+  document.getElementById("bordir").readOnly = false;
+  document.getElementById("jelujur").readOnly = false;
+  document.getElementById("payet").readOnly = false;
+  document.getElementById("qcPayet").readOnly = false;
+  document.getElementById("qcAkhir").readOnly = false;
+  document.getElementById("readystock").readOnly = false;
+  document.getElementById("myGambar").style.display = "block";
+  document.getElementById("tombolReset").style.display = "block";
+  document.getElementById("tombolSubmit").style.display = "block";
+  // document.getElementById('dupl').style.display = "none";
+  document.getElementById('exampleModalLabel').innerHTML = "Edit"
+  document.getElementById("numSTD").readOnly = true;
+  document.getElementById("skuID").readOnly = true;
+  document.getElementById("warna").readOnly = true;
+  document.getElementById("namaBaju").readOnly = true;
+  document.getElementById("myFile").required = false;
+  // document.getElementById("ket").cols = 30;
+  // document.getElementById("tanggaledit").style.display = "block";
+  document.getElementById("tanggaledit").style.display = "none";
+  document.getElementById("lamaHariBox").style.display = "block";
+  // document.getElementById("myGambar").style.display = "none";
+  // document.getElementById("size").readOnly = true;
+  document.getElementById('myform').reset()
+  const id = el.parentNode.parentNode.cells[0].innerHTML;
+  document.getElementById('img').style.display="none" 
+  document.getElementById('spin-loader').style.display = "none"
+  document.getElementById('btn-submit').style.display = "none"
+  google.script.run.withSuccessHandler(onSuccess).readId(id);
+  // document.getElementById('status').value = "Stand By";
+  // console.log(id);
+}
+   
+function onSuccess(response){
+  img = document.getElementById('img')
+  img.src == "" ? img.style.display="none" : img.style.display="block"
+  if(response !=null){
+    document.getElementById('numSTD').value = response[0];
+    document.getElementById('skuID').value = response[1];
+    document.getElementById('namaBaju').value = response[2];
+    document.getElementById('status').value = response[3];
+    document.getElementById('warna').value = response[4];
+    document.getElementById('jenisBaju').value = response[5];
+    document.getElementById('size').value = response[6];
+    document.getElementById('lingkarDada').value = response[7];
+    document.getElementById('panjangLengan').value = response[8];
+    document.getElementById('panjangBaju').value = response[9];
+    document.getElementById('etalase').value = response[10];
+    document.getElementById('namaUser').value = response[11];
+    document.getElementById('lastEdit').value = response[12];
+    document.getElementById('img').src = response[23];
+    document.getElementById('statKain').value = response[25];
+    document.getElementById('katBaju').value = response[24];
+    document.getElementById('catatan').value = response[26];
+    document.getElementById('store').value = response[27];
+    document.getElementById('lamaHari').value = response[28];
+  }
+  let daftarId = ['kain','pola','jahit','qcAwal','bordir','jelujur','payet','qcPayet','qcAkhir','readystock'];
+  for(var i=13;i<daftarId.length+13;i++){
+    if(response[i] == "✔"){
+      document.getElementById(daftarId[i-13]).checked = true;
+    }
+  }
+
+  if(document.getElementById("kain").checked == true){
+    document.getElementById("statKainBox").style.display = "block";
+  }else{
+    document.getElementById("statKainBox").style.display = "none";
+  }
+  if(document.getElementById("status").value == "Sold"){
+      document.getElementById("skuID").readOnly = true;
+      document.getElementById("namaBaju").readOnly = true;
+      document.getElementById("status").readOnly = true;
+      document.getElementById("warna").readOnly = true;
+      document.getElementById("jenisBaju").readOnly = true;
+      document.getElementById("size").readOnly = true;
+      document.getElementById("lingkarDada").readOnly = true;
+      document.getElementById("panjangLengan").readOnly = true;
+      document.getElementById("panjangBaju").readOnly = true;
+      document.getElementById("etalase").readOnly = true;
+      document.getElementById("myGambar").style.display = "none";
+      // document.getElementById("tombolReset").style.display = "none";
+      // document.getElementById("tombolSubmit").style.display = "none";
+    }
+  document.getElementById('btn-submit').style.display = "block"
+}
+
+  function saveForm(obj) { 
+        event.preventDefault();
+        document.getElementById('spin-loader').style.display = "block"
+        document.getElementById('btn-submit').style.display = "none"
+        google.script.run.withSuccessHandler(()=> {
+          $('#modelEdit').modal('hide')
+              Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Data Berhasil Disimpan',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            document.getElementById('myform').reset()
+             google.script.run.withSuccessHandler(showTable).getData() ;
+           }).saveData(obj);
+        // document.getElementById('filter-status').value = "";
+      }
+
+
+  function delData(el){
+        const id = el.parentNode.parentNode.cells[0].innerHTML; 
+        google.script.run.withSuccessHandler(()=>{
+        alert('Data Telah Dihapus')
+     google.script.run.withSuccessHandler(showTable).getData() ;
+        }).deleteData(id)
+      }
+
+      
+  function addData(){
+    document.getElementById('exampleModalLabel').innerHTML = "Input Baru"
+    document.getElementById('spin-loader').style.display = "none"
+    document.getElementById('btn-submit').style.display = "block"
+    document.getElementById("myFile").required = false;
+    document.getElementById('img').style.display="none"
+    document.getElementById('img').src = ""
+    document.getElementById('myform').reset()
+    document.getElementById("numSTD").readOnly = false;
+    document.getElementById("namaBaju").readOnly = false;
+    document.getElementById("lamaHariBox").style.display = "none";
+    // document.getElementById("ket").cols = 50;
+    // document.getElementById("myGambar").style.display = "block";
+    document.getElementById("tanggaledit").style.display = "none";
+    // document.getElementById("size").readOnly = false;
+    // document.getElementById("ket").value = "";
+    document.getElementById("skuID").readOnly = false;
+    document.getElementById("namaBaju").readOnly = false;
+    document.getElementById("status").readOnly = false;
+    document.getElementById("warna").readOnly = false;
+    document.getElementById("jenisBaju").readOnly = false;
+    document.getElementById("size").readOnly = false;
+    document.getElementById("lingkarDada").readOnly = false;
+    document.getElementById("panjangLengan").readOnly = false;
+    document.getElementById("panjangBaju").readOnly = false;
+    document.getElementById("etalase").readOnly = false;
+    document.getElementById("namaUser").readOnly = false;
+    document.getElementById("lastEdit").readOnly = false;
+    document.getElementById("kain").readOnly = false;
+    document.getElementById("pola").readOnly = false;
+    document.getElementById("jahit").readOnly = false;
+    document.getElementById("qcAwal").readOnly = false;
+    document.getElementById("bordir").readOnly = false;
+    document.getElementById("jelujur").readOnly = false;
+    document.getElementById("payet").readOnly = false;
+    document.getElementById("qcPayet").readOnly = false;
+    document.getElementById("qcAkhir").readOnly = false;
+    document.getElementById("readystock").readOnly = false;
+    document.getElementById("myGambar").style.display = "block";
+    document.getElementById("tombolReset").style.display = "block";
+    document.getElementById("tombolSubmit").style.display = "block";
+  }
+
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
